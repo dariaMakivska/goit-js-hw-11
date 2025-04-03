@@ -1,11 +1,7 @@
-
 .search-form {
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 36px;
-  margin-right: 534px;
-  margin-left: 354px;
+  margin: 36px auto;
 }
 
 .search-label {
