@@ -1,4 +1,4 @@
-import { fetchImages } from './js/pixabay-api.js';
+import { getImagesByQuery } from './js/pixabay-api.js';
 import {
   createGallery,
   showLoader,
@@ -14,28 +14,37 @@ const input = document.querySelector('.search-input');
 form.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  const userInput = input.value.trim();
+  const query = input.value.trim();
 
-  if (userInput === '') {
-    iziToast.warning({
-      message: 'Enter your search word!',
-      position: 'topRight',
-    });
+  if (query === '') {
     return;
   }
 
   clearGallery();
   showLoader();
 
-  fetchImages(userInput).then(images => {
-    if (images.length === 0) {
-      iziToast.warning({
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
-        position: 'topRight',
+  getImagesByQuery(query)
+    .then(images => {
+      if (images.length === 0) {
+        iziToast.warning({
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+          backgroundColor: '#EF4040',
+          theme: 'dark',
+        });
+        return;
+      }
+      createGallery(images);
+    })
+    .catch(error => {
+      console.error('Pixabay API error:', error);
+      iziToast.error({
+        title: 'Error',
+        message: 'Something went wrong. Please try again later.',
       });
-      return;
-    }
-    createGallery(images);
-  });
+    })
+    .finally(() => {
+      hideLoader();
+    });
 });

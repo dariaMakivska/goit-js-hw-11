@@ -1,22 +1,15 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-// let lightbox = new SimpleLightbox('.gallery a', {
-//   captionsData: 'alt',
-//   captionDelay: 250,
-// });
+const gallery = document.querySelector('.gallery');
+const loader = document.querySelector('#loader');
 
-// showLoader().Ця функція нічого не приймає, повинна додавати
-// клас для відображення лоадера.Нічого не повертає.
-
-// hideLoader().Ця функція нічого не приймає, повинна прибирати
-// клас для відображення лоадера.Нічого не повертає.
-// likes,views, comments, downloads;
-
-const loader = document.querySelector('.loader');
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 export function createGallery(images) {
-  const gallery = document.querySelector('.gallery');
   gallery.innerHTML = '';
 
   const markup = images
@@ -58,19 +51,20 @@ export function createGallery(images) {
     .join('');
   gallery.insertAdjacentHTML('beforeend', markup);
 
-  // const lightbox = new SimpleLightbox('.gallery a');
-  // lightbox.refresh();
+  lightbox.refresh();
 }
 
 export function clearGallery() {
   const gallery = document.querySelector('.gallery');
-  gallery.innerHTML = ''; // Очищаємо весь вміст галереї
+  gallery.innerHTML = '';
 }
 
 export function showLoader() {
   loader.classList.remove('hidden');
+  // console.log('Loader is shown');
 }
 
 export function hideLoader() {
   loader.classList.add('hidden');
+  // console.log('Loader is hidden');
 }
